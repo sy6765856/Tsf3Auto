@@ -1,0 +1,284 @@
+syntax = "proto2";
+package qidian.web.marketing.campaign;
+
+//TIPS: 由Server分配给PHP使用的命令字范围，[310000-320000]，使用其他命令字范围可能会引起冲突，谨慎！
+//campaign分配 310150-310199
+enum CampaignCmd {
+    CMD_GET_LIST = 310150; //campaign列表拉取
+    CMD_GET_DETAIL = 310151; //campaign详情
+    CMD_CREATE_ONE = 310152; //创建一个campaign
+    CMD_DELETE_ONE = 310153; //删除一个campaign
+    CMD_MODIFY_INFO = 310154; //修改信息
+    CMD_GET_ACTIVITIES_LIST = 310155; //查询活动列表
+    CMD_GET_RELATED_ACTIVITIES = 310156; //查询关联活动
+    CMD_GET_ALL_CHANNEL_SUMMARY = 310157; //查询一个campaign下所有通路的汇总数据
+    CMD_GET_CHANNEL_DETAIL = 310158; //查询一个通路里活动数据明细
+    CMD_SAVE_REFERRAL_URL = 310159; //保存推广链接
+    CMD_SAVE_ACTIVITY_COST = 310160; //保存活动成本
+    CMD_ASSOCIATE_ACTIVITY_CAMPAIGN = 310161; //更新活动关联的campaign
+    CMD_GET_CAMPAIGN_BY_ACTIVITY = 310162; //获取活动关联的campaign
+    CMD_GET_ACTIVITIES_BY_UPDATA = 310163; //根据上报数据获取活动
+    CMD_GET_ACTIVITIES_BY_FATHERIDS = 310164; //根据活动父级Id获取子集
+}
+
+message ReqBody {
+    optional GetListReq get_list_req = 310150;
+    optional GetDetailReq get_detail_req = 310151;
+    optional CreateOneReq create_one_req = 310152;
+    optional DeleteOneReq delete_one_req = 310153;
+    optional ModifyInfoReq modify_info_req = 310154;
+    optional GetActivitiesListReq get_activities_list_req = 310155;
+    optional GetRelatedActivitiesReq get_related_activities_req = 310156;
+    optional GetAllChannelSummaryReq get_all_channel_summary_req = 310157;
+    optional GetChannelDetailReq get_channel_detail_req = 310158;
+    optional SaveReferralUrlReq save_referral_url = 310159;
+    optional SaveActivityCostReq save_activity_cost_req = 310160;
+    optional AssociateActivityCampaignReq associate_activity_campaign_req = 310161;
+    optional GetCampaignByActivityReq get_campaign_by_activity_req = 310162;
+	optional GetActivitiesByUpDataReq get_activities_by_updata_req = 310163;
+    optional GetActivitiesByFatheridsReq get_activities_by_fatherids_req = 310164;
+}
+
+message RspBody {
+    optional RetInfo ret_info = 1;
+    optional GetListRsp get_list_rsp = 310150;
+    optional GetDetailRsp get_detail_rsp = 310151;
+    optional CreateOneRsp create_one_rsp = 310152;
+    optional DeleteOneRsp delete_one_rsp = 310153;
+    optional ModifyInfoRsp modify_info_rsp = 310154;
+    optional GetActivitiesListRsp get_activities_list_rsp = 310155;
+    optional GetRelatedActivitiesRsp get_related_activities_rsp = 310156;
+    optional GetAllChannelSummaryRsp get_all_channel_summary_rsp = 310157;
+    optional GetChannelDetailRsp get_channel_detail_rsp = 310158;
+    optional SaveReferralUrlRsp save_referral_url = 310159;
+    optional SaveActivityCostRsp save_activity_cost_rsp = 310160;
+    optional AssociateActivityCampaignRsp associate_activity_campaign_rsp = 310161;
+    optional GetCampaignByActivityRsp get_campaign_by_activity_rsp = 310162;
+	optional GetActivitiesByUpDataRsp get_activities_by_updata_rsp = 310163;
+    optional GetActivitiesByFatheridsRsp get_activities_by_fatherids_rsp = 310164;
+}
+
+message GetActivitiesByFatheridsReq {
+    optional uint32 uint32_type = 1; //见ActivityType
+    repeated string fatherids = 2;
+}
+
+message GetActivitiesByFatheridsRsp {
+    repeated Activity activity = 1;
+    optional uint64 uint64_total = 2;
+}
+
+message ActivityUpData {
+    optional string string_activity_id   = 1; // 上报id, 可能是个url
+    optional uint32 uint32_actitivy_type = 2; // 营销活动类型 1.短信群发 2.微信粉丝消息 3.广告跟踪 4.关键词 5.推广链接 6.二维码 7.优惠券
+}
+
+message GetActivitiesByUpDataReq {
+	optional uint64 uint64_kfuin = 1;
+	optional uint64 uint64_kfext = 2;
+	repeated ActivityUpData activity_data = 3;
+}
+
+message ActivityMap {
+    optional string string_activity_id   = 1; //  上报id, 可能是个url
+    repeated Activity activity = 2;
+}
+
+message GetActivitiesByUpDataRsp {
+	repeated ActivityMap activity_map = 1;
+}
+
+
+message GetCampaignByActivityReq {
+    repeated Activity activity = 1;
+    optional uint64 uint64_kfext = 2; //操作工号
+}
+
+message AssociateActivityCampaignReq {
+    optional uint32 uint32_type = 1; //见ActivityType
+    optional uint32 uint32_id = 2; //活动id: 活动主号内自增唯一id
+    optional uint64 uint64_campaign_id = 3;
+}
+
+message AssociateActivityCampaignRsp {
+
+}
+message SaveActivityCostReq {
+    optional string string_relatedId = 1; //活动id: type_id
+    optional string string_cost = 2;
+}
+
+message SaveReferralUrlReq {
+    optional string str_url = 1; //url
+}
+
+message GetListReq {
+    optional uint32 uint32_start = 1; //拉取开始
+    optional uint32 uint32_count = 2; //拉取条数 默认条
+    optional string str_keyword = 3; //搜索
+    optional uint32 uint32_withSummary = 4; //同时返回统计数据
+}
+
+message CampaignRecord {
+    optional uint64 uint64_campaign_id = 1;
+    optional string str_name = 2;
+    optional string str_description = 3;
+    optional uint64 uint64_begintime = 4;
+    optional uint64 uint64_endtime = 5;
+    optional uint64 uint64_createtime = 6;
+    optional uint64 uint64_lastupdatetime = 7;
+    optional uint64 uint64_lastmodifier = 8;
+    optional uint64 uint64_visitNum = 9;
+    optional uint64 uint64_newCustomerNum = 10;
+    optional string string_cost = 11;
+    optional string string_costPerCustomer = 12;
+}
+message ActivityRelatedCampaign {
+    optional Activity activity = 1;
+    optional CampaignRecord campaignRecord = 3;
+}
+
+message GetCampaignByActivityRsp {
+    repeated ActivityRelatedCampaign activityRelatedCampaign = 1;
+}
+
+message SaveActivityCostRsp {
+
+}
+
+message GetListRsp {
+    repeated CampaignRecord campaign_record = 1; //campaign列表信息
+    optional uint32 uint32_total = 2;
+}
+
+message GetDetailReq {
+    optional uint64 uint64_campaign_id = 1;
+    optional uint32 uint32_with_activitity = 2; //1:返回关联活动数据 默认为0
+}
+message GetRelatedActivitiesReq {
+    optional uint64 uint64_campaign_id = 1;
+    optional uint32 uint32_type = 2; //见ActivityType
+    optional uint32 uint32_start = 3; //拉取开始
+    optional uint32 uint32_count = 4; //拉取条数
+}
+
+enum ActivityType {
+    TYPE_AD = 1; //广告
+    TYPE_KEYWORDS = 2; //搜索关键词
+    TYPE_MASS_SMS = 3; //短信群发
+    TYPE_MP_ACCOUNT_MASS = 4; //公众号群发
+    TYPE_SPONSORED_LINK = 5; //推广链接
+    TYPE_QRCODE = 6; //二维码
+    TYPE_COUPON = 7; //优惠券
+    TYPE_WPA = 8; //接待组件
+    TYPE_CC_WPA = 9; //电话接待组件
+    TYPE_WX_H5 = 10; //微信H5
+    TYPE_GDT = 11; //广点通
+}
+
+message ActivityRelated {
+    optional uint32 uint32_type = 1; //见ActivityType
+    optional string str_relatedfirstlevel = 2;
+    optional string str_relatedsecondlevel = 3;
+    optional string str_frelatedid = 4;
+    optional string str_name = 5;
+    optional string str_indexId = 6;
+}
+
+message SaveReferralUrlRsp {
+    optional uint64 uint64_id = 1; //url对应表主键id
+}
+
+message GetDetailRsp {
+    optional CampaignRecord campaign_record = 1; //campaign基本信息
+    repeated Activity activity = 2; //关联活动
+}
+
+message GetRelatedActivitiesRsp {
+    repeated ActivityRelated activitity_related = 1; //关联活动
+}
+
+message CreateOneReq {
+    optional CampaignRecord campaign_record = 1;
+    repeated ActivityRelated activitity_related = 2; //关联活动
+    optional uint64 uint64_operator_kfext = 3; //操作人
+}
+
+message CreateOneRsp {
+    optional uint64 uint64_campaign_id = 1;
+}
+
+
+message DeleteOneReq {
+    optional uint64 uint64_campaign_id = 1;
+}
+
+message DeleteOneRsp {
+}
+
+message ModifyInfoReq {
+    optional uint64 uint64_campaign_id = 1;
+    optional CampaignRecord campaign_record = 2;
+    repeated ActivityRelated activitity_related = 3; //关联活动
+    optional uint64 uint64_operator_kfext = 4; //操作人
+}
+
+message ModifyInfoRsp {
+    optional uint64 uint64_campaign_id = 1;
+}
+
+message GetActivitiesListReq {
+    optional uint32 uint32_type = 1; //见ActivityType
+    optional uint32 uint32_list_level = 2;
+    optional string str_father_id = 3;
+    optional string str_keyword = 4; //搜索
+    optional uint32 uint32_start = 5; //拉取开始
+    optional uint32 uint32_count = 6; //拉取条数
+}
+
+message Activity {
+    optional uint32 uint32_type = 1; //见ActivityType
+    optional string uint32_id = 2;
+    optional string str_name = 3;
+    optional string str_extendField1 = 4; //扩展字段
+    optional string str_extendField2 = 5; //扩展字段
+    optional string str_extendField3 = 6; //扩展字段
+    optional string str_extendField4 = 7; //扩展字段
+    optional string str_indexId = 8;
+}
+
+message GetActivitiesListRsp {
+    repeated Activity activity = 1;
+    optional uint32 uint32_total = 2;
+}
+
+message RetInfo {
+    optional uint32 uint32_code = 1;
+    optional string str_message = 2;
+}
+
+
+message GetAllChannelSummaryReq {
+    repeated uint64 uint64_campaign_id = 1;
+    repeated uint32 uint32_update_activity_type = 2;
+}
+
+message GetAllChannelSummaryRsp {
+    optional string str_json = 1;
+}
+
+
+message GetChannelDetailReq {
+    optional uint64 uint64_campaign_id = 1; //campaign id
+    optional uint32 uint32_type = 2; //见ActivityType
+    optional uint32 uint32_offset = 3;
+    optional uint32 uint32_limit = 4;
+    optional string str_orderby = 5;
+    optional bool bool_desc = 6;
+    optional uint32 uint32_channel = 7;
+}
+
+
+message GetChannelDetailRsp {
+    optional string str_json = 1;
+}

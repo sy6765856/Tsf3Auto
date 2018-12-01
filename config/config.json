@@ -1,0 +1,18 @@
+{
+  "templatePath":"../templates",
+  "dirs": [
+    "Mix",
+    "Mix/Base",
+    "Mix/Component",
+    "Mix/Controller",
+    "Mix/Model",
+    "Command",
+    "Config",
+    "Config/env",
+    "Config/env/dev",
+    "Config/env/oa",
+    "Config/env/ol",
+    "library",
+    "UserWorker"
+  ]
+}
