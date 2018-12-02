@@ -1,10 +1,10 @@
 <?php
 /**
  * auto generated.
- * Time: 2018-12-03 01:08:18.037558 +0800 CST m=+0.001939780
+ * Time: {{.Time}}
  */
 
-namespace campaign\Mix\Base;
+namespace {{.Name}}\Mix\Base;
 
 use TSF\Mix\Route;
 

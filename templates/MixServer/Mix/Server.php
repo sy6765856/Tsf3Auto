@@ -1,9 +1,9 @@
 <?php
 /**
  * auto generated.
- * Time: 2018-12-03 01:08:18.037558 +0800 CST m=+0.001939780
+ * Time: {{.Time}}
  */
-define("QD_LOG_DIR_NAME", "campaign");
+define("QD_LOG_DIR_NAME", "{{.Name}}");
 
 const TSFlib   = '/usr/local/services/TSF3_qidian-1.0';
 const ServPath = __DIR__ . '/../../';
@@ -13,12 +13,12 @@ $classLoader = require TSFlib . '/vendor/autoload.php';
 require __DIR__ . '/../vendor/autoload.php';
 
 //配置业务代码能够被自动加载
-$classLoader->setPsr4('campaign\\', [__DIR__ . '/../../campaign']);
+$classLoader->setPsr4('{{.Name}}\\', [__DIR__ . '/../../{{.Name}}']);
 
-$server = new TSF\Core\Server('server', 'campaign', ServPath);
+$server = new TSF\Core\Server('server', '{{.Name}}', ServPath);
 
-$server->bind('TSF\Mix\Route', 'campaign\Mix\Base\InnerPBRoute');
-$server->bind('TSF\Stream\Scanner', 'campaign\Mix\Base\InnerPBScanner');
+$server->bind('TSF\Mix\Route', '{{.Name}}\Mix\Base\InnerPBRoute');
+$server->bind('TSF\Stream\Scanner', '{{.Name}}\Mix\Base\InnerPBScanner');
 $server->bind('TSF\Contract\Kernel\Base', 'TSF\Mix\MixKernel');
 
 \Composer\Autoload\includeFile(__DIR__ . "/../Config/env/{$_SERVER['QIDIAN_ENV']}/CampaignConst.php");

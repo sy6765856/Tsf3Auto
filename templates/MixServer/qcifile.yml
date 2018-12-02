@@ -1,0 +1,36 @@
+version: 1.0
+
+worker:
+  label: 10.85.0.76
+
+env: # 环境变量配置
+  ZHIYUN_APIKEY:
+    secret: nqXwXwFCB077zkF8H5hrp2qbmLFaJfFJrIa9UI+WIzAlEGB5VcXfU2IT2mJUKZegq0pY5efO0/EvjiCHv+jPEbAL0Ggb43nH/fR/G9MhLdqqifVOPlPNaKWyR8ULNZQYTSHicPbcUfjH9w+gopUkQY30eZItoDZv2LH5Y80yhSg=
+  ZHIYUN_CALLER: qidiancicd
+  ZHIYUN_PASSWORD:
+    secret: bSRCoskVmufIIQeD1ekVNkHDeF3uwkI/RKP+VSDOpdRp2EilQv/7RiTp6oMENYKu+P2irWCSQUPRAcjMKgS+SK9DrTH2Lrpqel/Lz+oB5+W17IyDb7uf2ZKJPHwx0tmdbEerCkLUynck92HWVRyyL0+GpbbNDnm6o0py0+aq6BU=
+  ZHIYUN_PRODUCT: qidian
+  ZHIYUN_REMARK: qci自动构建  # 织云版本描述
+
+stages:
+- stage: 构建
+  tasks:
+  - task: 文件打包
+    cmds:
+      - mkdir -p ./dist/$QCI_BUILD_ID/src/
+      - composer install
+      - composer update
+      - tar -czf ./dist/${QCI_BUILD_ID}/src.tar.gz ./* --warning=no-file-changed --exclude=dist --exclude=composer.* --exclude=qcifile.* --exclude=*.log --exclude=zhiyun_submit_result.json --exclude=.svn
+    artifacts:
+    - dist/${QCI_BUILD_ID}/*.tar.gz
+
+- stage: 部署
+  tasks:
+  - task: 织云包升级
+    cmds:
+    - python /data/__qci/qci_plugin_scripts/zhiyun/zhiyun_submit.py submit --apikey $ZHIYUN_APIKEY --caller $ZHIYUN_CALLER --password $ZHIYUN_PASSWORD --operator $QCI_TRIGGER --product $ZHIYUN_PRODUCT --name $pkgName --remark $ZHIYUN_REMARK --fileNameList dist/${QCI_BUILD_ID}/src.tar.gz --dest /qidian/$pkgName
+    status: ./zhiyun_submit_status.json
+
+
+
+
