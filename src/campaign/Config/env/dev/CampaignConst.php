@@ -1,10 +1,7 @@
 <?php
-
 /**
- * Created by PhpStorm.
- * User: rocwu
- * Date: 2017/12/13
- * Time: 下午9:20
+ * auto generated.
+ * Time: 2018-12-03 01:18:10.527011 +0800 CST m=+0.002216660
  */
 
 use Qidian\Web\Marketing\Campaign\ActivityType;

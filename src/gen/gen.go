@@ -19,9 +19,6 @@ type Gen struct {
 	Name                string             //生成服务名
 	Port                string             //服务端口
 	TemplatePath        string             //生成模板路径
-	TemplateSuffix      string             //模板后缀
-	GeneratedFileSuffix string             //生成文件后缀
-	Dirs                [] string          //生成目录(config.json)
 	ReqBodyName         string             //服务请求体在proto文件中名称
 	RsqBodyName         string             //服务响应体在proto文件中名称
 	ProtoFile           pbparser.ProtoFile //pb结构体，通过pb生成服务
@@ -31,7 +28,7 @@ type Gen struct {
 
 func Run(protoPath string, name string, port string) {
 	genObj := Gen{Name: name, Port: port}
-	genObj.loadConfig().loadPbContent(protoPath).init().genFalseWork(genObj.TemplatePath,"")
+	genObj.loadConfig().loadPbContent(protoPath).init().genFalseWork(genObj.TemplatePath, "")
 	//fmt.Printf("genObj init: %+v", genObj)
 }
 
@@ -74,13 +71,13 @@ func (genObj *Gen) init() *Gen {
 }
 
 func (genObj *Gen) genFalseWork(basePath string, dirPath string) *Gen {
-	files, _ := ioutil.ReadDir(basePath+dirPath)
-	os.Mkdir(genObj.Name + dirPath, os.ModePerm)
+	files, _ := ioutil.ReadDir(basePath + dirPath)
+	os.Mkdir(genObj.Name+dirPath, os.ModePerm)
 	for _, f := range files {
-		if(f.IsDir()) {
+		if (f.IsDir()) {
 			genObj.genFalseWork(basePath, dirPath+"/"+f.Name())
 		} else {
-			t, _ := template.ParseFiles(basePath+dirPath + "/" + f.Name())
+			t, _ := template.ParseFiles(basePath + dirPath + "/" + f.Name())
 			outPath := genObj.Name + dirPath + "/" + f.Name()
 			//fmt.Printf("%v\n", outPath)
 			outputFile, _ := os.OpenFile(outPath, os.O_WRONLY|os.O_CREATE, 0666)

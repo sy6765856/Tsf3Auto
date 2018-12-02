@@ -1,9 +1,7 @@
 <?php
 /**
- * Your file description
- *
- * @author honsytshen
- * @date   2018/5/24
+ * auto generated.
+ * Time: 2018-12-03 01:18:10.527011 +0800 CST m=+0.002216660
  */
 
 namespace campaign_mix_svr\Mix\Controller;

@@ -1,7 +1,7 @@
 <?php
 /**
  * auto generated.
- * Time: 2018-12-03 01:08:18.037558 +0800 CST m=+0.001939780
+ * Time: 2018-12-03 01:18:10.527011 +0800 CST m=+0.002216660
  */
 return [
     'name'            => env('APP_SERVER_NAME', 'campaign'),

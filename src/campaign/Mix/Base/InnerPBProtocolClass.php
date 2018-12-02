@@ -1,12 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: rocwu
- * Date: 2017/12/8
- * Time: 下午4:34
+ * auto generated.
+ * Time: 2018-12-03 01:18:10.527011 +0800 CST m=+0.002216660
  */
 
-namespace campaign_mix_svr\Mix\Base;
+namespace campaign\Mix\Base;
 
 use Com\Tencent\Epc\Innerprocess;
 use Qidian\Web\Marketing\Campaign;
