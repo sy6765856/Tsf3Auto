@@ -1,22 +1,5 @@
 {
-  "dirs": [
-    "Mix",
-    "Mix/Base",
-    "Mix/Component",
-    "Mix/Controller",
-    "Mix/Model",
-    "Command",
-    "Config",
-    "Config/env",
-    "Config/env/dev",
-    "Config/env/oa",
-    "Config/env/ol",
-    "library",
-    "UserWorker"
-  ],
   "templatePath": "../templates/MixServer",
-  "templateSuffix": ".tpl",
-  "generatedFileSuffix": ".php",
   "req": "ReqBody",
   "rsp": "RspBody"
 }
