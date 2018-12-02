@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"github.com/urfave/cli"
-	//"./generator"
 	"./gen"
 )
 
@@ -19,10 +18,10 @@ func main() {
 			Usage:   "generate falseWork from proto",
 			Action: func(c *cli.Context) error {
 				///todo check params
-				srvName := c.Args().Get(0)
-				protoName := c.Args().Get(1)
-				//generator.Auto(srvName, 9700, protoName)
-				gen.Run(srvName, protoName)
+				protoPath := c.Args().Get(0)
+				srvName := c.Args().Get(1)
+				port := c.Args().Get(2)
+				gen.Run(protoPath, srvName, port)
 				return nil
 			},
 		},

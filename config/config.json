@@ -1,5 +1,4 @@
 {
-  "templatePath":"../templates",
   "dirs": [
     "Mix",
     "Mix/Base",
@@ -14,5 +13,10 @@
     "Config/env/ol",
     "library",
     "UserWorker"
-  ]
+  ],
+  "templatePath": "../templates/MixServer",
+  "templateSuffix": ".tpl",
+  "generatedFileSuffix": ".php",
+  "req": "ReqBody",
+  "rsp": "RspBody"
 }
